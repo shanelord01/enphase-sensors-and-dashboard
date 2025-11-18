@@ -10,6 +10,10 @@
    - sensor.inverter_2000000000xx
    - sensor.envoy_100000000001_current_power_production
 
+## Screenshots
+<img width="484" height="202" alt="solar-curtailment-card" src="https://github.com/user-attachments/assets/c03d1c56-079f-40ee-a9f7-4c5b312f313d" />
+<img width="1039" height="1211" alt="solar-curtailment-dashboard" src="https://github.com/user-attachments/assets/3c3bdd8f-b017-462f-a690-770bdbf863e4" />
+
 ## License
 
 This repository is licensed under the  
