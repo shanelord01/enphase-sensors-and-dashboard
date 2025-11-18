@@ -1,0 +1,79 @@
+type: custom:button-card
+name: Solar Curtailment
+tap_action:
+  action: navigate
+  navigation_path: /dashboard-areas/areas-solar_system
+styles:
+  card:
+    - padding: 0
+    - border-radius: 0.6em
+    - overflow: hidden
+    - min-height: 0
+  grid:
+    - grid-template-areas: "\"content\""
+    - grid-template-columns: 1fr
+    - grid-template-rows: 1fr
+  name:
+    - display: none
+  custom_fields:
+    content:
+      - width: 100%
+      - margin: 0
+      - padding: 0
+      - justify-self: stretch
+      - align-self: start
+      - display: block
+custom_fields:
+  content: |
+    [[[ 
+      const status = states['sensor.solar_curtailment_status'].state;
+      const level = parseFloat(states['sensor.solar_curtailment_level'].state || 0);
+      const current = parseFloat(states['sensor.envoy_100000000001_current_power_production'].state || 0);
+      const forecast = parseFloat(states['sensor.power_production_now'].state || 0);
+      const unit = states['sensor.envoy_100000000001_current_power_production'].attributes.unit_of_measurement || 'kW';
+
+      let bg = '#43a047';
+      let color = '#ffffff';
+
+      if (level >= 80) { bg = '#e53935'; color = '#ffffff'; }
+      else if (level >= 50) { bg = '#fb8c00'; color = '#ffffff'; }
+      else if (level >= 20) { bg = '#fdd835'; color = '#212121'; }
+
+      const current_kw = current.toFixed(2);
+      const forecast_kw = (forecast / 1000).toFixed(2);
+
+      return `
+      <div style="
+        background-color:${bg};
+        color:${color};
+        padding:0.6em 0.8em;
+        border-radius:0.4em;
+        line-height:1.4em;
+        font-size:0.9em;
+        margin:0;
+        width:100%;
+        box-sizing:border-box;
+        font-family:Roboto,Arial,sans-serif;
+        text-align:left;
+      ">
+        <div style="font-weight:500; margin-bottom:0.2em;">🔆 Solar Curtailment</div>
+        <table style="border-collapse:separate; border-spacing:0 0.15em; width:100%;">
+          <tr>
+            <td style="white-space:nowrap; padding-right:0.4em;">Status:</td>
+            <td>${status}</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap; padding-right:0.4em;">Curtailment&nbsp;Level:</td>
+            <td>${level.toFixed(1)}%</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap; padding-right:0.4em;">Current&nbsp;Production:</td>
+            <td>${current_kw} ${unit}</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap; padding-right:0.4em;">Estimated&nbsp;Production:</td>
+            <td>${forecast_kw} kW</td>
+          </tr>
+        </table>
+      </div>`;
+    ]]]
