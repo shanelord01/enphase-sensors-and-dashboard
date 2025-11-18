@@ -1,0 +1,295 @@
+title: Solar System
+path: areas-solar_system
+subview: true
+type: sections
+header:
+  badges_position: bottom
+  layout: center
+  badges_wrap: wrap
+column_span: 2
+grid_options: null
+columns: 1
+justify-content: center
+align-items: center
+sections:
+  - type: grid
+    cards:
+      - type: heading
+        icon: mdi:solar-power
+        heading: Solar Curtailment
+        heading_style: title
+      - type: entity
+        entity: sensor.solar_curtailment_status
+        state_color: false
+        name: Curtailment Status
+      - graph: line
+        type: sensor
+        detail: 2
+        entity: sensor.solar_curtailment_level
+        name: Curtailment Level
+      - graph: line
+        type: sensor
+        entity: sensor.envoy_122122047462_current_power_production
+        detail: 1
+        name: Current Solar Production
+      - graph: line
+        type: sensor
+        detail: 2
+        entity: sensor.power_production_now
+        name: Estimated Solar Production Now
+    column_span: 2
+  - type: grid
+    cards:
+      - type: heading
+        icon: mdi:solar-power-variant-outline
+        heading: West Solar Array
+        heading_style: title
+      - type: custom:mini-graph-card
+        height: 130
+        entities:
+          - entity: sensor.total_solar_west_power
+            name: West Array Solar Production
+            show_state: true
+            show_graph: false
+          - entity: sensor.inverter_100000000001
+            name: IQ7A 10001
+          - entity: sensor.inverter_100000000002
+            name: IQ7A 10002
+          - entity: sensor.inverter_100000000003
+            name: IQ7A 10003
+          - entity: sensor.inverter_100000000004
+            name: IQ7A 10004
+          - entity: sensor.inverter_100000000005
+            name: IQ7A 10005
+          - entity: sensor.inverter_100000000006
+            name: IQ7A 10006
+          - entity: sensor.inverter_100000000007
+            name: IQ7A 10007
+          - entity: sensor.inverter_100000000008
+            name: IQ7A 10008
+          - entity: sensor.inverter_100000000009
+            name: IQ7A 10009
+          - entity: sensor.inverter_100000000010
+            name: IQ7A 10010
+          - entity: sensor.inverter_100000000011
+            name: IQ7A 10011
+          - entity: sensor.inverter_100000000012
+            name: IQ7A 10012
+          - entity: sensor.inverter_100000000013
+            name: IQ7A 10013
+        show:
+          labels: true
+          labels_secondary: true
+          legend: false
+    column_span: 1
+  - type: grid
+    cards:
+      - type: heading
+        icon: mdi:solar-power-variant
+        heading: North East Solar Array
+        heading_style: title
+      - type: custom:mini-graph-card
+        height: 130
+        entities:
+          - entity: sensor.total_solar_north_east_power
+            name: North East Array Solar Production
+            show_state: true
+            show_graph: false
+          - entity: sensor.inverter_200000000001
+            name: IQ7A 20001
+          - entity: sensor.inverter_200000000002
+            name: IQ7A 20002
+          - entity: sensor.inverter_200000000003
+            name: IQ7A 20003
+          - entity: sensor.inverter_200000000004
+            name: IQ7A 20004
+          - entity: sensor.inverter_200000000005
+            name: IQ7A 20005
+          - entity: sensor.inverter_200000000006
+            name: IQ7A 20006
+          - entity: sensor.inverter_200000000007
+            name: IQ7A 20007
+          - entity: sensor.inverter_200000000008
+            name: IQ7A 20008
+          - entity: sensor.inverter_200000000009
+            name: IQ7A 20009
+          - entity: sensor.inverter_200000000010
+            name: IQ7A 20010
+          - entity: sensor.inverter_200000000011
+            name: IQ7A 20011
+          - entity: sensor.inverter_200000000012
+            name: IQ7A 20012
+          - entity: sensor.inverter_200000000013
+            name: IQ7A 20013
+        show:
+          labels: true
+          labels_secondary: true
+          legend: false
+  - type: grid
+    cards:
+      - type: heading
+        heading: West Facing Solar Panels
+        heading_style: title
+        icon: mdi:solar-power-variant-outline
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 3
+          square: false
+        card_param: cards
+        filter:
+          include:
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000001
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000002
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000003
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000004
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000005
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000006
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000007
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000008
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000009
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000010
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000011
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000012
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_100000000013
+          exclude: []
+        grid_options:
+          columns: full
+    column_span: 1
+  - type: grid
+    cards:
+      - type: heading
+        heading: North East Facing Solar Panels
+        heading_style: title
+        icon: mdi:solar-power-variant
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 3
+          square: false
+        card_param: cards
+        filter:
+          include:
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000001
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000002
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000003
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000004
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000005
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000006
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000007
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000008
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000009
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000010
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000011
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000012
+            - options:
+                type: sensor
+                graph: line
+                detail: 2
+              entity_id: sensor.inverter_200000000013
+          exclude: []
+        grid_options:
+          columns: full
+badges: []
+max_columns: 2
+cards: []
