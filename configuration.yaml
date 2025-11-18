@@ -1,0 +1,141 @@
+template:
+  - sensor:
+      # Enphase North East and West Array Power Totals
+      - name: "Total Solar North East Power"
+        unique_id: total_solar_north_east_power
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+        state: >
+          {% set sensors = [
+            'sensor.inverter_122133017457',
+            'sensor.inverter_122133017608',
+            'sensor.inverter_122133017806',
+            'sensor.inverter_122133018176',
+            'sensor.inverter_122133018733',
+            'sensor.inverter_122133018863',
+            'sensor.inverter_122133018887',
+            'sensor.inverter_122133022092',
+            'sensor.inverter_122133022248',
+            'sensor.inverter_122133022270',
+            'sensor.inverter_122133022529',
+            'sensor.inverter_122133022530',
+            'sensor.inverter_122133022674'
+          ] %}
+          {% set values = namespace(sum=0) %}
+          {% for s in sensors %}
+            {% set val = states(s) %}
+            {% if val not in ['unknown', 'unavailable', 'none', None] %}
+              {% set values.sum = values.sum + (val | float(0)) %}
+            {% endif %}
+          {% endfor %}
+          {{ values.sum | round(1) }}
+      
+      - name: "Total Solar West Power"
+        unique_id: total_solar_west_power
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+        state: >
+          {% set sensors = [
+            'sensor.inverter_122123042296',
+            'sensor.inverter_122123057398',
+            'sensor.inverter_122123058564',
+            'sensor.inverter_122123058573',
+            'sensor.inverter_122123061398',
+            'sensor.inverter_122123062556',
+            'sensor.inverter_122123062996',
+            'sensor.inverter_122123063002',
+            'sensor.inverter_122133018088',
+            'sensor.inverter_122133018412',
+            'sensor.inverter_122133018804',
+            'sensor.inverter_122133021460',
+            'sensor.inverter_122133024549'
+          ] %}
+          {% set values = namespace(sum=0) %}
+          {% for s in sensors %}
+            {% set val = states(s) %}
+            {% if val not in ['unknown', 'unavailable', 'none', None] %}
+              {% set values.sum = values.sum + (val | float(0)) %}
+            {% endif %}
+          {% endfor %}
+          {{ values.sum | round(1) }}
+      
+      # Solar Curtailment Sensors
+      - name: "Solar Curtailment Level"
+        unique_id: solar_curtailment_level
+        unit_of_measurement: "%"
+        device_class: power_factor
+        state_class: measurement
+        state: >
+          {% set actual_w = states('sensor.envoy_122122047462_current_power_production') | float(0) * 1000
+             if states('sensor.envoy_122122047462_current_power_production') | float(0) < 50 else
+             states('sensor.envoy_122122047462_current_power_production') | float(0) %}
+          {% set forecast_w = states('sensor.power_production_now') | float(0) %}
+          {% set system_cap_w = 10.4 * 1000 %}
+          {% set expected_w = [forecast_w, system_cap_w] | min %}
+
+          {% if expected_w <= 0 %}
+            0
+          {% else %}
+            {% set diff = (1 - (actual_w / expected_w)) * 100 %}
+            {% if diff < 0 %} 0
+            {% elif diff > 100 %} 100
+            {% else %} {{ diff | round(1) }}
+            {% endif %}
+          {% endif %}
+        icon: mdi:gauge
+
+      - name: "Solar Curtailment Status"
+        unique_id: solar_curtailment_status
+        icon: >
+          {% set val = states('sensor.solar_curtailment_status') %}
+          {% if val == 'On' %}
+            mdi:alert
+          {% elif val == 'Maybe' %}
+            mdi:alert-outline
+          {% else %}
+            mdi:solar-power
+          {% endif %}
+        state: >
+          {% set actual_w = states('sensor.envoy_122122047462_current_power_production') | float(0) * 1000
+             if states('sensor.envoy_122122047462_current_power_production') | float(0) < 50 else
+             states('sensor.envoy_122122047462_current_power_production') | float(0) %}
+          {% set forecast_w = states('sensor.power_production_now') | float(0) %}
+          {% set system_cap_w = 10.4 * 1000 %}
+          {% set expected_w = [forecast_w, system_cap_w] | min %}
+          {% if expected_w <= 0 %}
+            Off
+          {% else %}
+            {% set diff = (1 - (actual_w / expected_w)) * 100 %}
+            {% if diff > 70 %}
+              On
+            {% elif diff > 40 %}
+              Maybe
+            {% else %}
+              Off
+            {% endif %}
+          {% endif %}
+
+  # Solar Curtailment detection sensor
+  - binary_sensor:
+      - name: "Solar Curtailment Active"
+        unique_id: solar_curtailment_active
+        state: >
+          {% set actual = states('sensor.envoy_122122047462_current_power_production') | float(0) %}
+          {% set forecast = states('sensor.power_production_now') | float(0) %}
+          {% set system_kw = 10.4 %}
+          {% set expected = [forecast, system_kw * 1000] | min %}
+
+          {% if expected < 100 %}
+            false
+          {% else %}
+            {% set ratio = (1 - (actual / expected)) * 100 %}
+            {{ ratio > 70 }}
+          {% endif %}
+        icon: >
+          {% if is_state('binary_sensor.solar_curtailment_active', 'on') %}
+            mdi:alert
+          {% else %}
+            mdi:solar-power
+          {% endif %}
