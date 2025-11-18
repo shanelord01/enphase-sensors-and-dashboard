@@ -1,3 +1,5 @@
+# Enphase Sensors and Dashboards for Home Assistant - Including Solar Curtailment Metrics
+
 ## Instructions
 
 1. Ensure you have your Enphase System with Micro Inverters setup and running via [Enphase Envoy Integration](https://www.home-assistant.io/integrations/enphase_envoy/).
