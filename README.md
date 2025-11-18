@@ -1,8 +1,14 @@
+## Instructions
 
-
-
-
-
+1. Ensure you have your Enphase System with Micro Inverters setup and running (not detailed here).
+2. Ensure you have setup and configured the Forecast.Solar Integration https://www.home-assistant.io/integrations/forecast_solar/
+3. Add the sections from [configuration.yaml](./configuration.yaml) into your Home Assistant configuration.yaml - note you may need to massage this if you already have a sensor section.
+4. Change the following sensors to match your sensors:
+   - sensor.inverter_1000000000xx
+   - sensor.inverter_2000000000xx
+   - sensor.envoy_100000000001_current_power_production
+5. Ensure the Forecast.Solar sensor "Estimate Power Production - Now" is showing as sensor.power_production_now
+6. Setup the dashboards - adjusting the sennsors to match yours again as per above.
 
 
 ## License
